@@ -1,4 +1,6 @@
 eclipse.preferences.version=1
+encoding//python/autoReplaceFootage.py=utf-8
+encoding//python/copyTree.py=utf-8
+encoding//python/quickwrite.py=utf-8
 encoding/init.py=utf-8
 encoding/menu.py=utf-8
-encoding/quickwrite.py=utf-8

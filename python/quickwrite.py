@@ -55,7 +55,13 @@ def quickWrite():
             os.makedirs(fullPath)
         except Exception,e:
             print e
-            
+    else :
+        fullPath = uploadPath + "/c001"
+        try:
+            os.makedirs(fullPath)
+        except Exception,e:
+            print e
+        newSceneName = sceneName.replace(versionNumber, "c001")    
     fullName = fullPath + "/" + newSceneName + format
     
     #does has selected

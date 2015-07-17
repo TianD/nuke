@@ -6,9 +6,11 @@ Created on 2015/7/16
 '''
 
 import quickwrite
+import autoReplaceFootage
 
 toolbar = nuke.menu("Nodes")
 tdMenu = toolbar.addMenu("TianD", "TianD.png")
 
 tdMenu.addCommand("Quick Write", "quickwrite.quickWrite()","alt+w","quickwrite.png")
 
+tdMenu.addCommand("Auto Replace Footages", "autoReplaceFootage.replaceFootages()","alt+r","replaceFootages.png")
