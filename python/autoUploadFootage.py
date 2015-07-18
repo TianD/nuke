@@ -10,7 +10,13 @@ import copyTree
     
 import lightRenderData as lRD
 
-def replaceFootages():
+def uploadFootages():
+
+    #according to the user departments determine upload what type of footage in nuke
+    #effects upload "_ef_"
+    #render upload "_lr_"
+    #other cannot upload any footage
+    department = os.environ['KX_PROF']
     
     footages = dict()
     for node in nuke.allNodes("Read"):
@@ -20,8 +26,27 @@ def replaceFootages():
         
 
     for key, value in footages.items():
-
+        
         filename = value[0]
+        if department == 'effects':
+            if "_ef_" in filename :
+                pass
+            elif "_lr_" in filename :
+                continue
+            else :
+                continue
+
+        elif department == 'render':
+            if "_ef_" in filename :
+                continue
+            elif "_lr_" in filename :
+                pass
+            else :
+                continue
+        
+        else :
+            continue
+        
         d = value[1]
         
         #first, upload footages to server
@@ -48,5 +73,6 @@ def replaceFootages():
         read = nuke.toNode(key)
         newValue = read["file"].getValue().replace(d, newd)
         read["file"].setValue(newValue)
-        
+    
+    nuke.message('更新完成')
     

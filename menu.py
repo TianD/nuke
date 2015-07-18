@@ -13,4 +13,4 @@ tdMenu = toolbar.addMenu("TianD", "TianD.png")
 
 tdMenu.addCommand("Quick Write", "quickwrite.quickWrite()","alt+w","quickwrite.png")
 
-tdMenu.addCommand("Auto Replace Footages", "autoReplaceFootage.replaceFootages()","alt+r","replaceFootages.png")
+tdMenu.addCommand("Auto Upload Footages", "autoUploadFootage.uploadFootages()","alt+r","uploadFootages.png")

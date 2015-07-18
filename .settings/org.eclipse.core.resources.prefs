@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
-encoding//python/autoReplaceFootage.py=utf-8
+encoding//python/autoUploadFootage.py=utf-8
+encoding//python/copyFilesWithProgress.py=utf-8
 encoding//python/copyTree.py=utf-8
 encoding//python/quickwrite.py=utf-8
 encoding/init.py=utf-8
