@@ -6,7 +6,6 @@ Created on 2015/7/17
 '''
 
 import os
-import threading
 import os.path
 import shutil
 
@@ -47,15 +46,3 @@ def copytree(src, dst, symlinks=False):
         errors.extend((src, dst, str(why)))
     if errors:
         print errors
-        
-def uploadProgress():
-    task = nuke.ProgressTask("Self Destructing")
-    task.setMessage("Deleting files")
-    for i in xrange( 0, 200 ):
-        if task.isCancelled():
-            nuke.executeInMainThread( nuke.message, args=( "Phew!" ) )
-            break;
-        task.setProgress(int(i*0.5))
-    
-if __name__ == "__main__":
-    threading.Thread( None, selfDestruct ).start()

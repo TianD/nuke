@@ -16,8 +16,8 @@ def uploadFootages():
     #effects upload "_ef_"
     #render upload "_lr_"
     #other cannot upload any footage
-    department = os.environ['KX_PROF']
-    
+    department = os.environ['KX_PROF'] 
+        
     footages = dict()
     for node in nuke.allNodes("Read"):
         file = os.path.basename(node["file"].getValue())
@@ -28,51 +28,53 @@ def uploadFootages():
     for key, value in footages.items():
         
         filename = value[0]
-        if department == 'effects':
-            if "_ef_" in filename :
-                pass
-            elif "_lr_" in filename :
-                continue
-            else :
-                continue
-
-        elif department == 'render':
-            if "_ef_" in filename :
-                continue
-            elif "_lr_" in filename :
-                pass
-            else :
-                continue
-        
-        else :
-            continue
         
         d = value[1]
         
-        #first, upload footages to server
-        nameMatch = lRD.ProjNameMatch()
-        nameMatch.fileName = filename
-        
-        uploadPath = nameMatch.getUploadServerPath()
-        
-        newd = uploadPath + "/" + d.split("/")[-1]
-        
-        if os.path.exists(newd):
-            if os.listdir(newd):
-                if nuke.ask('!!!素材已经存在, 是否覆盖!!!'):
+        if "Z:" not in d:
+            
+            if department == 'effects':
+                if "_ef_" in filename :
                     pass
                 else :
-                    read = nuke.toNode(key)
-                    newValue = read["file"].getValue().replace(d, newd)
-                    read["file"].setValue(newValue)
                     continue
+            
+            elif department == 'render':
+                if "_lr_" in filename :
+                    pass
+                else :
+                    continue
+            else :
+                continue
+            
+            #first, upload footages to server
+            nameMatch = lRD.ProjNameMatch()
+            nameMatch.fileName = filename
+            
+            uploadPath = nameMatch.getUploadServerPath()
+            
+            newd = uploadPath + "/" + d.split("/")[-1]
+            
+            if os.path.exists(newd):
+                if os.listdir(newd):
+                    if nuke.ask('!!!%s的素材已经存在, 是否覆盖!!!' %key):
+                        pass
+                    else :
+                        read = nuke.toNode(key)
+                        newValue = read["file"].getValue().replace(d, newd)
+                        read["file"].setValue(newValue)
+                        continue
+            else :
+                os.makedirs(newd)
+            copyTree.copytree(d, newd)
+            
+            read = nuke.toNode(key)
+            newValue = read["file"].getValue().replace(d, newd)
+            read["file"].setValue(newValue)
+            
         else :
-            os.makedirs(newd)
-        copyTree.copytree(d, newd)
-        
-        read = nuke.toNode(key)
-        newValue = read["file"].getValue().replace(d, newd)
-        read["file"].setValue(newValue)
+            read = nuke.toNode(key)
+            newValue = read["file"].getValue().replace("Z:", "//kaixuan.com/kx")
+            read["file"].setValue(newValue)            
     
     nuke.message('更新完成')
-    
