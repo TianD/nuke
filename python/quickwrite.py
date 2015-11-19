@@ -21,31 +21,36 @@ def quickWrite():
     
     #read sceneName from nuke root Node
     root = nuke.toNode("root")
+    
     sceneName = root.name().split("/")[-1].split(".")[0]
     
+    if sceneName == 'Root':
+        raise ImportError, "请先打开正确命名的文件" 
+
     nameMatch = lRD.ProjNameMatch()
-    nameMatch.fileName = sceneName
+    nameMatch.setFileName(sceneName)
+    nameMatch.setPrefix(mod=1)
     uploadPath = nameMatch.getUploadServerPath().replace("Images", "Comp")
     versionNumber = sceneName.split("_")[-1]
     format = ".%04d.tga"
     
     #判断路径是否存在, 判断路径是否是空
     if os.path.exists(uploadPath):
-        subdirs = os.listdir(uploadPath)
+        subdirs = [d for d in os.listdir(uploadPath) if os.path.isdir(d)]
         #判断有木有子文件夹, 即有木有版本号文件夹
         if subdirs:
             lastDir = subdirs[-1]
             #判断版本文件夹内是否有文件
-            if os.listdir(uploadPath + "/" + lastDir):
+            if os.listdir(uploadPath + lastDir):
                 #如果非空, 则创建新的版本文件夹
                 lastNum = int(re.findall("\d+", lastDir)[-1])
                 prefix = re.findall("[a-zA-Z]", lastDir)[0]
                 version = prefix + str(lastNum+1).zfill(3)
-                fullPath = uploadPath + "/" + version
+                fullPath = uploadPath + version
                 newSceneName = sceneName.replace(versionNumber, version)
             else :
                 #如果为空, 则输出到这个版本内
-                fullPath = uploadPath + "/" + lastDir
+                fullPath = uploadPath + lastDir
                 newSceneName = sceneName.replace(versionNumber, lastDir)
                 
         else :
