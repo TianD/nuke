@@ -49,11 +49,12 @@ def uploadFootages():
             
             #first, upload footages to server
             nameMatch = lRD.ProjNameMatch()
-            nameMatch.fileName = filename
+            nameMatch.setFileName(filename)
+            nameMatch.setPrefix(mod=1)
             
             uploadPath = nameMatch.getUploadServerPath()
             
-            newd = uploadPath + "/" + d.split("/")[-1]
+            newd = uploadPath + d.split("/")[-1]
             
             if os.path.exists(newd):
                 if os.listdir(newd):
