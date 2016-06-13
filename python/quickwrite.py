@@ -8,16 +8,66 @@ import sys,os
 import re
 from string import zfill
 
-lRDpath = "//kaixuan.com/kx/Resouce/Support/KX/maya2014/modules/lightRender/scripts"
+from PyQt4 import QtGui, QtCore
 
-if lRDpath not in sys.path:
-    sys.path.append(lRDpath)
-    
 import nuke
 
 import lightRenderData as lRD
+import kxTool
+from _functools import partial
 
-def quickWrite():
+
+class LeftRightChoiceWindow(QtGui.QDialog):
+    
+    def __init__(self, parent = None):
+        super(LeftRightChoiceWindow, self).__init__(parent)
+        
+        self.HBoxLayout = QtGui.QHBoxLayout()
+        
+        self.leftBtn = QtGui.QPushButton("Left", parent = self)
+        self.HBoxLayout.addWidget(self.leftBtn)
+        
+        self.rightBtn = QtGui.QPushButton("Right", parent = self)
+        self.HBoxLayout.addWidget(self.rightBtn)
+        
+        self.setLayout(self.HBoxLayout)
+        
+        self.setWindowTitle('Left Right Choice')
+        self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+        
+        self.leftBtn.clicked.connect(partial(self.btnCmd, 'stereoCameraLeft'))
+        self.rightBtn.clicked.connect(partial(self.btnCmd, 'stereoCameraRight'))
+
+        self.projectMatch()
+        
+    def projectMatch(self):
+        #read sceneName from nuke root Node
+        root = nuke.toNode("root")
+        
+        sceneName = root.name().split("/")[-1].split(".")[0]
+        
+        if sceneName == 'Root':
+            raise ImportError, "请先打开正确命名的文件" 
+    
+        nameMatch = lRD.ProjNameMatch()
+        nameMatch.setFileName(sceneName)
+        nameMatch.setPrefix(mod=1)
+        projName = nameMatch.getPorjName()
+        
+        kx = kxTool.KXTool()
+        if kx.stereoDic.has_key(projName):
+            if kx.stereoDic[projName] == 1:
+                self.show()
+            else :
+                quickWrite()
+        else :
+            quickWrite()
+        
+    def btnCmd(self, text):
+        quickWrite(add = text)
+        self.deleteLater()
+        
+def quickWrite(add = None):
     
     #read sceneName from nuke root Node
     root = nuke.toNode("root")
@@ -30,7 +80,11 @@ def quickWrite():
     nameMatch = lRD.ProjNameMatch()
     nameMatch.setFileName(sceneName)
     nameMatch.setPrefix(mod=1)
+    projName = nameMatch.getPorjName()
+    
     uploadPath = nameMatch.getUploadServerPath().replace("Images", "Comp")
+    if add :
+        uploadPath = uploadPath + "/" + add
     versionNumber = sceneName.split("_")[-1]
     format = ".%04d.tga"
     

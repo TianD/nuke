@@ -7,9 +7,13 @@ Created on 2015/7/16
 import sys
 
 lRDpath = "//kaixuan.com/kx/Resouce/Support/KX/maya2014/modules/lightRender/scripts"
+projectDicPath = 'Z:/Resouce/Support/KX/maya2014/modules/TianD_KX_TOOL/scripts'
 
-if lRDpath not in sys.path:
-    sys.path.append(lRDpath)
+kxPath = [lRDpath, projectDicPath]
+
+for path in kxPath:
+    if path not in sys.path:
+        sys.path.append(path)
     
     
 nuke.pluginAddPath('./gizmos')
