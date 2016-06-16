@@ -1,0 +1,22 @@
+<RCC>
+  <qresource prefix="resetIcon">
+    <file>reset_color.png</file>
+    <file>reset.png</file>
+  </qresource>
+  <qresource prefix="submitIcon">
+    <file>submit_color.png</file>
+    <file>submit.png</file>
+  </qresource>
+  <qresource prefix="effectIcon">
+    <file>effect_color.png</file>
+    <file>effect.png</file>
+  </qresource>
+  <qresource prefix="lightIcon">
+    <file>light_color.png</file>
+    <file>light.png</file>
+  </qresource>
+  <qresource prefix="removeIcon">
+    <file>remove_color.png</file>
+    <file>remove.png</file>
+  </qresource>
+</RCC>

@@ -7,13 +7,59 @@
     <x>0</x>
     <y>0</y>
     <width>623</width>
-    <height>354</height>
+    <height>375</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>kx_nuke_submit_tool</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <property name="styleSheet">
+   <string notr="true">QPushButton
+{
+	border:none;
+}
+QPushButton#submitPushButton 
+{
+	image: url(:/submitIcon/submit.png);
+}
+QPushButton#submitPushButton:hover 
+{
+	image: url(:/submitIcon/submit_color.png);
+}
+QPushButton#removePushButton 
+{
+	image: url(:/removeIcon/remove.png);
+}
+QPushButton#removePushButton:hover 
+{
+	image: url(:/removeIcon/remove_color.png);
+}
+QPushButton#resetPushButton 
+{
+	image: url(:/resetIcon/reset.png);
+}
+QPushButton#resetPushButton:hover 
+{
+	image: url(:/resetIcon/reset_color.png);
+}
+QPushButton#lrPushButton 
+{
+	image: url(:/lightIcon/light.png);
+}
+QPushButton#lrPushButton:hover 
+{
+	image: url(:/lightIcon/light_color.png);
+}
+QPushButton#fxPushButton 
+{
+	image: url(:/effectIcon/effect.png);
+}
+QPushButton#fxPushButton:hover 
+{
+	image: url(:/effectIcon/effect_color.png);
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <widget class="QTableView" name="tableView">
      <property name="minimumSize">
@@ -28,26 +74,202 @@
        <height>16777215</height>
       </size>
      </property>
+     <property name="toolTip">
+      <string/>
+     </property>
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="submitPushButton">
-     <property name="maximumSize">
-      <size>
-       <width>6000</width>
-       <height>6000</height>
-      </size>
-     </property>
-     <property name="toolTip">
-      <string>开始上传</string>
-     </property>
-     <property name="text">
-      <string>上传</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="btnHBoxLayout">
+     <item>
+      <layout class="QVBoxLayout" name="departmentVBoxLayout">
+       <item>
+        <widget class="QPushButton" name="fxPushButton">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>仅列出特效部门的素材</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="lrPushButton">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>仅列出灯光部门的素材</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="setVBoxLayout">
+       <property name="spacing">
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="resetPushButton">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>刷新重置面板</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border:none;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="removePushButton">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="toolTip">
+          <string>移除所选择的Item</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border:none;</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>50</width>
+           <height>50</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="submitPushButton">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>100</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>6000</width>
+         <height>6000</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>开始上传</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>100</width>
+         <height>100</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="kx_nuke_submit_tool.qrc"/>
+ </resources>
  <connections/>
 </ui>

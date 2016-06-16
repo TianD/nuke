@@ -8,6 +8,7 @@ encoding//kx_nuke_submit_tool/showUI.py=utf-8
 encoding//python/autoUploadFootage.py=utf-8
 encoding//python/copyFilesWithProgress.py=utf-8
 encoding//python/copyTree.py=utf-8
+encoding//python/quickSubmit.py=utf-8
 encoding//python/quickwrite.py=utf-8
 encoding/init.py=utf-8
 encoding/menu.py=utf-8

@@ -4,21 +4,22 @@ Created on 2016年6月6日 下午3:23:01
 
 @author: TianD
 
-@E-mail: tiandao_dunjian@sina.cn
+@E_mail: tiandao_dunjian@sina.cn
 
 @Q    Q: 298081132
 
 @Description: define functions
 
 '''
-import sys
- 
-a = "Z:\\Resouce\\Support\\KX\\maya2014\\modules\\TianD_KX_TOOL\\scripts"
-b = "Z:\\Resouce\\Support\\KX\\maya2014\\modules\\lightRender\\scripts"
-sys.path.append(a)
-sys.path.append(b)
+# import sys
+#  
+# a = "Z:\\Resouce\\Support\\KX\\maya2014\\modules\\TianD_KX_TOOL\\scripts"
+# b = "Z:\\Resouce\\Support\\KX\\maya2014\\modules\\lightRender\\scripts"
+# sys.path.append(a)
+# sys.path.append(b)
 
 import os, os.path, shutil
+import nuke
 from PyQt4 import QtCore
 from sequenceFileDetection import SequenceFileDetection
 from lightRenderData import ProjNameMatch
@@ -35,6 +36,7 @@ def parseCmd(filePath, mod = 1):
     file = os.path.basename(filePath[0]).split(".")[0]
     ext = os.path.basename(filePath[0]).split(".")[-1]
     frameRange = filePath[1]
+    nodeName = filePath[-1]
     if frameRange:
         files = ["{0}.{1}.{2}".format(file, i, ext) for i in frameRange]
     else :
@@ -58,7 +60,7 @@ def parseCmd(filePath, mod = 1):
             for v in value:
                 pnm.setFileName(v)
                 if pnm.matchProjName():
-                    result.append([0, os.path.join(root, v), '', option, 0])
+                    result.append([0, nodeName, os.path.join(root, v), '', option, 0])
         else :
             framePrefix = key.split('.')[-2].split('%')[0]
             frameStart = value[0]
@@ -69,7 +71,7 @@ def parseCmd(filePath, mod = 1):
                 frameRange = "{0}{1}-{3}-{0}{2}".format(framePrefix, frameStart, frameEnd, miss)
             else :
                 frameRange = "{0}{1}-{0}{2}".format(framePrefix, frameStart, frameEnd)
-            result.append([0, os.path.join(root, key), frameRange, option, 0])
+            result.append([0, nodeName, os.path.join(root, key), frameRange, option, 0])
             
     return result
 
@@ -79,13 +81,21 @@ def createPath(filePath, add):
     pnm.setFileName(textName)
     pnm.setPrefix(mod=1)
     version = pnm.getResults('version_number')
+    describ = os.path.basename(os.path.dirname(filePath))
+    elems = [optionDic[u"%s" %add], version]
+    if describ != version :
+        elems.append(describ)
     uploadPath = pnm.getUploadServerPath(mod='Images')
-    if optionDic[u"%s" %add] :
-        uploadPath = os.path.join(uploadPath, optionDic[u"%s" %add], version)
-    else :
-        uploadPath = os.path.join(uploadPath, version)
+    for elem in elems:
+        if elem:
+            uploadPath = os.path.normpath(os.path.join(uploadPath, elem))
+        else :
+            pass
     
-    uploadPath = uploadPath.replace("//kaixuan.com/kx/Proj/SENBA/Production/Render", "E:") 
+#     normalserverPath = os.path.normpath("//kaixuan.com/kx/Proj")
+#     serverPath = "//kaixuan.com/kx/Proj"
+#     uploadPath = uploadPath.replace(serverPath, "E:").replace(normalserverPath, "E:")
+    
     if os.path.exists(uploadPath):
         #print "{0} has existed".format(uploadPath)
         pass
@@ -106,15 +116,29 @@ def copyCmd(filePath, uploadPath, frame = None):
     else :
         fileName = "{0}".format(textName)
     
-    sourceFile = os.path.join(textPath, fileName)
-    uploadFile = os.path.join(uploadPath, fileName)
+    sourceFile = os.path.normpath(os.path.join(textPath, fileName))
+    uploadFile = os.path.normpath(os.path.join(uploadPath, fileName))
+
+    if sourceFile.replace("z:", os.path.normpath("//kaixuan.com/kx")).replace("Z:", os.path.normpath("//kaixuan.com/kx")) == uploadFile:
+        return uploadFile
     
+#     if sourceFile == uploadFile:
+#         return uploadFile
+           
     try:
         shutil.copy2(sourceFile, uploadFile)
     except:
         raise IOError, "failure"
     #print uploadFile
     return uploadFile
+
+def setNodeFileValue(nodeName, uploadPath):
+    node = nuke.toNode(nodeName)
+    value = node['file'].getValue()
+    path = os.path.dirname(value)
+    newValue = os.path.normpath(value.replace(path, uploadPath)).replace("\\","/")
+    node['file'].setValue(newValue)
+    return nodeName
     
 def getFrames(frameRange):
     sections = frameRange.split(",")
@@ -130,6 +154,13 @@ def getFrames(frameRange):
         frameLst.extend(thisRange)
     return frameLst
         
+def getDepartmentInfo(fileName):
+    pnm = ProjNameMatch()
+    pnm.setFileName(fileName)
+    pnm.setPrefix(mod=1)
+    department = pnm.getResults('process_name')
+    return department
+
 if __name__ == "__main__":
     '''
     [
@@ -138,8 +169,9 @@ if __name__ == "__main__":
     ['b','ROCK_003_003_003_an_c001', '1001-1110', QtCore.QVariant('Right'), 0]
     ]
     '''
-    print parseCmd(['E:/rock_sq/sq001/sc001/stereoCameraLeft/c002\\SB_102_001_001_cp_c002.1001.tga', []], mod = 1)
+    #print parseCmd(['E:/rock_sq/sq001/sc001/stereoCameraLeft/A_Clr\\ROCK_001_001_001_ef_AA1_c001.1001.exr', []], mod = 1)
+    print createPath('E:/rock_sq/sq001/sc001/stereoCameraLeft/A_Clr\\ROCK_001_001_001_AA1_ef_c001.1001.exr', "Normal")
     #print getFrames("1001-1010,1012-1014")
     #print getFrames("1001")
     #print getFrames("1001-1010,1012-1014,1016,1020-1022")
-    #print copyCmd("E:\\senba_sq\\sq001\\sc001\\c001\\SB_102_001_001_cp_c001.1001.tga", "Normal")
+    #print copyCmd("z:\\Proj\\ROCK\\Production\\Render\\Images\\ODD\\ep001\\sq001\\sc001\\stereoCameraLeft\\AA1\\c001\\ROCK_001_001_001_AA1_ef_c001.1001.exr", "//kaixuan.com/kx/Proj\\ROCK\\Production\\Render\\Images\\ODD\\ep001\\sq001\\sc001\\stereoCameraLeft\\AA1\\c001")

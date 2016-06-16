@@ -4,14 +4,13 @@ Created on 2016年5月30日 下午3:37:57
 
 @author: TianD
 
-@E-mail: tiandao_dunjian@sina.cn
+@E_mail: tiandao_dunjian@sina.cn
 
 @Q    Q: 298081132
 
 @Description: define delegate
 
 '''
-
 
 from PyQt4 import QtCore, QtGui
 from _functools import partial
@@ -38,8 +37,7 @@ class ProgressBarDelegate(QtGui.QStyledItemDelegate):
         opt.textAlignment = QtCore.Qt.AlignHCenter
         # draw item data as CheckBox
         style.drawControl(QtGui.QStyle.CE_ProgressBar, opt, painter)
-#     
-            
+
 
 class ComboBoxDelegate(QtGui.QStyledItemDelegate):
     def __init__(self, options, parent = None):

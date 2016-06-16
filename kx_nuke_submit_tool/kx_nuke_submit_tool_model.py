@@ -4,7 +4,7 @@ Created on 2016年5月30日 下午12:04:18
 
 @author: TianD
 
-@E-mail: tiandao_dunjian@sina.cn
+@E_mail: tiandao_dunjian@sina.cn
 
 @Q    Q: 298081132
 
@@ -63,7 +63,7 @@ class TableModel(QtCore.QAbstractTableModel):
             
     def flags(self, index):
         column = index.column()
-        if column == 3 :
+        if column == 4 :
             return QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
         return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
     
@@ -74,7 +74,7 @@ class TableModel(QtCore.QAbstractTableModel):
             column = index.column()
             
             value = value
-            if column == 4 or column == 0 :
+            if column == 5 or column == 0 :
                 self.__data[row][column] = value
                 self.dataChanged.emit(index, index)
                 return True               
