@@ -170,7 +170,7 @@ if __name__ == "__main__":
     ]
     '''
     #print parseCmd(['E:/rock_sq/sq001/sc001/stereoCameraLeft/A_Clr\\ROCK_001_001_001_ef_AA1_c001.1001.exr', []], mod = 1)
-    print createPath('E:/rock_sq/sq001/sc001/stereoCameraLeft/A_Clr\\ROCK_001_001_001_AA1_ef_c001.1001.exr', "Normal")
+    print createPath('Z:/Proj/ROCK/Production/Render/Images/ODD/ep001/sq011/sc084/stereoCameraLeft/c001/effect/ROCK_001_011_084_bigEffectLight_ef_c001/ROCK_001_011_084_bigEffectLight_ef_c001.%04d.tif', "Normal")
     #print getFrames("1001-1010,1012-1014")
     #print getFrames("1001")
     #print getFrames("1001-1010,1012-1014,1016,1020-1022")
