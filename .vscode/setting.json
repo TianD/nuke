@@ -1,0 +1,6 @@
+// 将设置放入此文件中以覆盖默认设置
+{
+    //Python Path
+    "python.pythonPath": "C:/Program Files/Nuke9.0v5/python.exe",
+    "python.autoComplete.extraPaths": ["C:/Program Files/Nuke9.0v5/pythonextensions/site-packages"]
+}
